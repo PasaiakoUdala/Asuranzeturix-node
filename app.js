@@ -10,10 +10,13 @@ var users = require('./routes/users');
 
 var app = express();
 var AmiIo = require("ami-io"),
-    amiio = AmiIo.createClient({port:5038, host:'10.60.68.1', login:'pasaia', password:'p4s414'}),
-    amiio2 = new AmiIo.Client();
+    SilentLogger = new AmiIo.SilentLogger(), //use SilentLogger if you just want remove logs
+    amiio = AmiIo.createClient({port:5038, host:'10.60.68.1', login:'pasaia', password:'p4s414',logger: SilentLogger});
+    // amiio = AmiIo.createClient({port:5038, host:'10.60.68.1', login:'pasaia', password:'p4s414'});
 
 const notifier = require('node-notifier');
+
+// var ni = 6422
 
 
 // view engine setup
@@ -40,35 +43,59 @@ amiio.on('incorrectLogin', function () {
     amiio.logger.error("Incorrect login or password.");
     process.exit();
 });
+
+// amiio.on('event', eventObject => logOrFilterAsYouWhant(eventObject));
+// function logOrFilterAsYouWhand(eventObject) {
+//     if (eventObject.event === 'Dial'){
+//         console.log('event:', eventObject);
+//         //if you will use amiio.logger, you will never see anything.
+//     }
+// }
 amiio.on('event', function(event){
-    if ( event.event === 'Dial') {
-        console.log("dei berria");
-        // amiio.logger.info('event:', event);
-        notifier.notify({
-            title: 'DEI BERRIA',
-            message: 'ring ring!',
-            icon: path.join(__dirname, 'coulson.jpg'), // Absolute path (doesn't work on balloons)
-            sound: true, // Only Notification Center or Windows Toasters
-            wait: true // Wait with callback, until user action is taken against notification
-        }, function (err, response) {
-            // Response is response from notification
-        });
+    if (event.event === 'Hangup'){
+        console.log('event:', event);
     }
-    if ( event.event === 'Hangup') {
-        console.log("Kolgatu");
-        // amiio.logger.info('event:', event);
+    if (event.event === "Dial") {
+        console.log("Ring Ring");
     }
+    if ( event.event === "Newchannel") {
+        console.log("Channel nº 5");
+    }
+});
+// function logOrFilterAsYouWhand(eventObject) {
+
+// }
+
+// amiio.on('event', function(event){
+//     if ( event.event === 'Newchannel') {
+//         console.log("dei berria");
+//         console.log("**************************************************************************************")
+//         console.log("aupa!!");
+//         amiio.logger.info('event:', event);
+//         console.log(event);
+//         console.log("**************************************************************************************")
+//         console.log("fin!!")
+//         // amiio.logger.info('event:', event);
+//         notifier.notify({
+//             title: 'DEI BERRIA',
+//             message: 'Nork: ' + event.calleridname + ' Nori: ' + event.exten,
+//             icon: path.join(__dirname, 'coulson.jpg'), // Absolute path (doesn't work on balloons)
+//             sound: true, // Only Notification Center or Windows Toasters
+//             wait: true // Wait with callback, until user action is taken against notification
+//         }, function (err, response) {
+//             // Response is response from notification
+//         });
+//     }
+//     if ( event.event === 'Hangup') {
+//         console.log("Hangup");
+//         // amiio.logger.info('event:', event);
+//     }
+//
+// });
+amiio.connect();
+amiio.on('connected', function(){
 
 });
-amiio.connect();
-// amiio.on('connected', function(){
-//     setTimeout(function(){
-//         amiio.disconnect();
-//         amiio.on('disconnected', process.exit());
-//     },3000);
-// });
-
-
 
 
 app.use('/', index);
