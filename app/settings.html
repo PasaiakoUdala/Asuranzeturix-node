@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hobespenak</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/estiloak.css">
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h3>Hobespenak</h3>
+        </div>
+
+        <form class="form-horizontal">
+            <h4>AMI</h4>
+            <hr>
+            <div class="form-group">
+                <label for="txtServer" class="col-xs-2 control-label">Server:</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" id="txtServer" placeholder="192.168.1.1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txtPort" class="col-xs-2 control-label">Portua:</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" id="txtPort" placeholder="5038">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txtUser" class="col-xs-2 control-label">Erabiltzailea:</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" id="txtUser" placeholder="admin">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txtPasswd" class="col-xs-2 control-label">Pasahitza:</label>
+                <div class="col-xs-10">
+                    <input type="password" class="form-control" id="txtPasswd" placeholder="pasahitza">
+                </div>
+            </div>
+            <div class="row">&nbsp;</div>
+            <h4>Erabiltzailea</h4>
+            <hr>
+            <div class="form-group">
+                <label for="txtEmail" class="col-xs-2 control-label">Emaila:</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" id="txtEmail" placeholder="user@domain.com">
+                </div>
+            </div>
+
+            <div class="row">
+                <button type="submit" class="btn btnSave btn-primary pull-right">Gorde</button>
+                <button type="submit" class="btn btnCancel btn-default pull-right">Ezeztatu</button>
+            </div>
+
+        </form>
+
+    </div>
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/hobespenak.js"></script>
+</body>
+</html>
