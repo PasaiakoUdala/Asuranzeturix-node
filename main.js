@@ -5,6 +5,20 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
 const menubar = require('menubar');
+
+const settings = require('electron-settings');
+
+let SERVER, PORT, USER, PASSWD;
+
+settings.configure({
+    prettify: true
+});
+SERVER = settings.getSync('AMI.server');
+PORT = settings.getSync('AMI.port');
+USER = settings.getSync('AMI.user');
+PASSWD = settings.getSync('AMI.passwd');
+console.log(SERVER);
+
 const mb = menubar({preloadWindow: true,
                     "width" : 1000,
                     "height" : 800,
@@ -12,8 +26,8 @@ const mb = menubar({preloadWindow: true,
 const express = require('express');
 const AmiIo = require("ami-io"),
     SilentLogger = new AmiIo.SilentLogger(), //use SilentLogger if you just want remove logs
-    amiio = AmiIo.createClient({port:5038, host:'10.60.68.1', login:'pasaia', password:'p4s414',logger: SilentLogger});
-// amiio = AmiIo.createClient({port:5038, host:'10.60.68.1', login:'pasaia', password:'p4s414'});
+    amiio = AmiIo.createClient({port:PORT, host:SERVER, login:USER, password:PASSWD,logger: SilentLogger});
+
 const notifier = require('node-notifier');
 
 const Server = require('electron-rpc/server');
