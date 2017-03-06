@@ -22,16 +22,49 @@ const mb = menubar({preloadWindow: true,
                     "width" : 1000,
                     "height" : 800,
                     "index":'file://' + path.join(__dirname,"/app/index.html")});
+// USER = 'ironadmin';
+// PASSWD = 'adminsecret';
+
 const AmiIo = require("ami-io"),
     SilentLogger = new AmiIo.SilentLogger(), //use SilentLogger if you just want remove logs
-    amiio = AmiIo.createClient({port:PORT, host:SERVER, login:USER, password:PASSWD,logger: SilentLogger});
+    // amiio = AmiIo.createClient({port:PORT, host:SERVER, login:USER, password:PASSWD,logger: SilentLogger});
+    amiio = AmiIo.createClient({port:PORT, host:SERVER, login:USER, password:PASSWD});
 
 const notifier = require('node-notifier');
 
 const Server = require('electron-rpc/server');
 const sApp = new Server();
 
-const terminalak = ['4121115060010934'];
+const terminalak = ['4121115060010934', 'zoiber'];
+
+sApp.on('deitu', function (err, body) {
+    const action = new AmiIo.Action.Originate(); //AmiIo here is the variable's name there you store required ami-io
+
+    // var aktion = new action.Originate();
+    action.Channel = 'SIP/4121115060010934'; // iker
+    // action.Channel = 'SIP/4121115060010935'; // Gorka
+    action.Context = 'desde-usuarios';
+    // action.Context = 'default';
+    action.Exten = 'SIP/6422';
+    action.Priority = 1;
+    action.Async = true;
+    action.WaitEvent = true;
+    // console.log(action);
+
+
+
+    amiio.send(action, function(err, data){
+        console.log("bidali da.");
+        if (err){
+            //err will be event like OriginateResponse if (#response !== 'Success')
+            console.log(err);
+        }
+        else {
+            //data is event like OriginateResponse if (#response === 'Success')
+            console.log(data);
+        }
+    });
+});
 
 mb.on('ready', function ready () {
     // Open the DevTools.
@@ -55,12 +88,19 @@ mb.on('ready', function ready () {
     });
     amiio.on('event', function(event){
         if (event.event === 'Hangup'){
-            // console.log(event);
+            console.log("*********************************************************");
+            console.log(event);
+            console.log("*********************************************************");
+
             // TODO: channel bidez bilatu behar du SIP/XXXXXXXXX-YYYYY textuan
-            let exten = event.channel.split("SIP/")[1].split("-")[0];
-            console.log(exten);
-            if ( terminalak.indexOf(exten) != -1) {
-                sApp.send('hangup', event);
+            if ( typeof event !== "undefined") {
+                if (typeof event.channel !== "undefined") {
+                    let exten = event.channel.split("SIP")[1].split("-")[0];console.log(exten);
+                    if ( terminalak.indexOf(exten) != -1) {
+                        sApp.send('hangup', event);
+                    }
+
+                }
             }
         }
         if (event.event === "Dial") {

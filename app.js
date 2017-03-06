@@ -17,8 +17,6 @@ var AmiIo = require("ami-io"),
 const notifier = require('node-notifier');
 
 // var ni = 6422
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
