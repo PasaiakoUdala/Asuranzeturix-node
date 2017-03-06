@@ -22,8 +22,6 @@ const mb = menubar({preloadWindow: true,
                     "width" : 1000,
                     "height" : 800,
                     "index":'file://' + path.join(__dirname,"/app/index.html")});
-// USER = 'ironadmin';
-// PASSWD = 'adminsecret';
 
 const AmiIo = require("ami-io"),
     SilentLogger = new AmiIo.SilentLogger(), //use SilentLogger if you just want remove logs
