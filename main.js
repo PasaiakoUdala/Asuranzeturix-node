@@ -23,10 +23,25 @@ const mb = menubar({preloadWindow: true,
                     "height" : 800,
                     "index":'file://' + path.join(__dirname,"/app/index.html")});
 
+
+var io = require('socket.io-client');
+var socket = io.connect('http://10.60.68.1:3000', {reconnect: true});
+socket.on('connect_failed', function () {
+    console.log("Sorry, there seems to be an issue with the connection!");
+});
+
+// Add a connect listener
+socket.on('connect', function (socket) {
+    console.log('konektau da!!');
+    console.log(socket);
+});
+socket.emit('CH01', 'me', 'test msg');
+
+
 const AmiIo = require("ami-io"),
     SilentLogger = new AmiIo.SilentLogger(), //use SilentLogger if you just want remove logs
-    // amiio = AmiIo.createClient({port:PORT, host:SERVER, login:USER, password:PASSWD,logger: SilentLogger});
-    amiio = AmiIo.createClient({port:PORT, host:SERVER, login:USER, password:PASSWD});
+    amiio = AmiIo.createClient({port:PORT, host:SERVER, login:USER, password:PASSWD,logger: SilentLogger});
+    // amiio = AmiIo.createClient({port:PORT, host:SERVER, login:USER, password:PASSWD});
 
 const notifier = require('node-notifier');
 
