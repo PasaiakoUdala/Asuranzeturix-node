@@ -16,10 +16,10 @@ client.on('newchannel', function (err, body) {
     console.log('newchannel:', body);
     let nork = body.calleridnum;
     nork = 'Nik';
-    let nori = body.exten
+    let nori = body.exten;
     let noiz = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
     let niretr = "<tr><td>" + body.calleridnum + "</td><td>" + body.exten + "</td><td>" + noiz + "</td><a class='btnDeitu' href='#'>deitu</a><td></td>";
-    $('#deiakTaula > tbody:last-child').append(niretr);
+    $('#deiakTaula').find('> tbody:last-child').append(niretr);
 });
 
 $('body').on('click', '.btnDeitu', function () {
@@ -29,4 +29,9 @@ $('body').on('click', '.btnDeitu', function () {
 client.on('dial', function (err, body) {
     console.log('dial:', body);
     $('#kk').append(body);
+});
+
+var socket = io.connect('http://10.60.68.1:3700');
+socket.on('message', function () {
+    console.log('message message!!');
 });
